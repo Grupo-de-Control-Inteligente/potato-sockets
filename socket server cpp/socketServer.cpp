@@ -18,7 +18,7 @@ socketServer::socketServer()
     }
 }
 
-//abre el servicio para enviar y recibir datos
+//abre el servicio del socket para enviar y recibir datos
 
 void socketServer::openServer()
 {
@@ -35,7 +35,7 @@ void socketServer::openServer()
 
 //cierra las comunicaciones en uno de los sentidos o totalmente
 
-void closeSocket(char *option)
+void socketServer::closeSocket(char *option)
 {
     int mode;
 
@@ -53,13 +53,14 @@ void closeSocket(char *option)
     }
 
     shutdown(descriptor, mode);
+
 }
 
 //ponemos el servidor a recibir mensajes y guarda en una estructura la info del cliente que envía
 
 char* socketServer::receive()
 {
-    if(recvfrom(this.descriptor, (char *)&this.buffer, sizeof(this.buffer), 0, (struct sockaddr *)&Client, &ClienLength) == -1)
+    if(recvfrom(this.descriptor, (char *)&this.buffer, sizeof(this.buffer), 0, (struct sockaddr *)&this.Client, &this.ClientLength) == -1)
     {
         cout << "Error receiving data\n" << endl;
         return NULL;
@@ -75,7 +76,7 @@ char* socketServer::receive()
 void socketServer::send(char *clientIP, char *data)
 {
     strcpy(this.buffer, data);
-    if(sendto(Descriptor, (char *)&buffer, sizeof(buffer), 0, (struct sockaddr *)&Client, ClientLength) == -1)
+    if(sendto(this.descriptor, (char *)&this.buffer, sizeof(this.buffer), 0, (struct sockaddr *)&this.Client, this.ClientLength) == -1)
     {
         cout << "Error sending data\n" << endl;
         this.buffer = NULL;
@@ -84,14 +85,14 @@ void socketServer::send(char *clientIP, char *data)
 
 //no se si necesaria, por si queremos cambiar la IP del servidor
 
-void changeserverIP(char *newIP)
+void socketServer::changeserverIP(char *newIP)
 {
     strcpy(this.serverIP, newIP);
 }
 
 //no se si necesaria, por si queremos cambiar el puerto por el que damos servicio
 
-void changeport(int p)
+void socketServer::changeport(int p)
 {
     this.port = p;
 }
