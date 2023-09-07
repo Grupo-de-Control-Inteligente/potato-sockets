@@ -1,0 +1,5 @@
+package potatolcm;
+
+struct habla_potato_t {
+	string frasepotato;
+}

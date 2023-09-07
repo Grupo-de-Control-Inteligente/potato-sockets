@@ -1,0 +1,5 @@
+package potatolcm;
+
+struct habla_usuario_t {
+	string fraseusuario;
+}
